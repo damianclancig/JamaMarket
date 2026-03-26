@@ -582,7 +582,62 @@ export const translations = {
     es: 'El estado del pedido ha sido actualizado correctamente.', 
     pt: 'O status do pedido foi atualizado com sucesso.' 
   },
+  'Privacy_Policy': { en: 'Privacy Policy', es: 'Política de Privacidad', pt: 'Política de Privacidade' },
+  'Privacy_Title': { en: 'Privacy Policy', es: 'Política de Privacidad', pt: 'Política de Privacidade' },
+  'Privacy_Meta_Desc': { en: 'Read our privacy policy to understand how we handle your personal data at JamaMarket.', es: 'Lee nuestra política de privacidad para entender cómo manejamos tus datos personales en JamaMarket.', pt: 'Leia nossa política de privacidade para entender como lidamos com seus dados pessoais no JamaMarket.' },
+  'Privacy_Intro': { 
+    en: 'At JamaMarket, we value your privacy. This policy describes how we collect, use, and protect your information when you use our website.', 
+    es: 'En JamaMarket, valoramos su privacidad. Esta política describe cómo recopilamos, utilizamos y protegemos su información al utilizar nuestro sitio web.', 
+    pt: 'No JamaMarket, valorizamos sua privacidade. Esta política descreve como coletamos, usamos e protegemos suas informações ao usar nosso site.' 
+  },
+  'Privacy_S1_Title': { en: '1. Information We Collect', es: '1. Información que Recopilamos', pt: '1. Informações que Coletamos' },
+  'Privacy_S1_Body': { 
+    en: 'We only collect essential information for processing your orders, such as your name, email address, shipping address, and phone number.', 
+    es: 'Solo recopilamos información esencial para procesar sus pedidos, como su nombre, dirección de correo electrónico, dirección de envío y número de teléfono.', 
+    pt: 'Coletamos apenas informações essenciais para processar seus pedidos, como seu nome, endereço de e-mail, endereço de entrega e número de telefone.' 
+  },
+  'Privacy_S2_Title': { en: '2. Use of Information', es: '2. Uso de la Información', pt: '2. Uso da Informação' },
+  'Privacy_S2_Body': { 
+    en: 'Your information is used exclusively to manage your orders, communicate regarding your purchases, and improve our services.', 
+    es: 'Su información se utiliza exclusivamente para gestionar sus pedidos, comunicarnos con usted respecto a sus compras y mejorar nuestros servicios.', 
+    pt: 'Suas informações são usadas exclusivamente para gerenciar seus pedidos, nos comunicarmos com você sobre suas compras e melhorar nossos servicios.' 
+  },
+  'Privacy_S3_Title': { en: '3. Data Security', es: '3. Seguridad de los Datos', pt: '3. Segurança dos Dados' },
+  'Privacy_S3_Body': { 
+    en: 'We implement security measures to protect your personal information. We do not store credit card details; all payments are processed securely through MercadoPago.', 
+    es: 'Implementamos medidas de seguridad para proteger su información personal. No almacenamos datos de tarjetas de crédito; todos los pagos se procesan de forma segura a través de MercadoPago.', 
+    pt: 'Implementamos medidas de segurança para proteger suas informações pessoais. Não armazenamos dados de cartão de crédito; todos os pagamentos são processados de forma segura através do MercadoPago.' 
+  },
+  'Privacy_S4_Title': { en: '4. Cookies', es: '4. Cookies', pt: '4. Cookies' },
+  'Privacy_S4_Body': { 
+    en: 'We use essential cookies to maintain your shopping cart session and improve your browsing experience.', 
+    es: 'Utilizamos cookies esenciales para mantener su sesión del carrito de compras y mejorar su experiencia de navegación.', 
+    pt: 'Usamos cookies essenciais para manter sua sessão do carrinho de compras e melhorar sua experiência de navegação.' 
+  },
+  'Privacy_S5_Title': { en: '5. Third-Party Sharing', es: '5. Compartir con Terceros', pt: '5. Compartilhamento com Terceiros' },
+  'Privacy_S5_Body': { 
+    en: 'We do not sell or share your personal data with third parties, except as necessary to fulfill your order (e.g., shipping services).', 
+    es: 'No vendemos ni compartimos sus datos personales con terceros, excepto cuando sea necesario para completar su pedido (por ejemplo, servicios de mensajería).', 
+    pt: 'Não vendemos nem compartilhamos seus dados pessoais com terceiros, exceto quando necessário para concluir seu pedido (por exemplo, serviços de entrega).' 
+  },
+  'Privacy_S6_Title': { en: '6. Your Rights', es: '6. Sus Derechos', pt: '6. Seus Direitos' },
+  'Privacy_S6_Body': { 
+    en: 'You have the right to access, update, or request the deletion of your personal information at any time through your profile or by contacting us.', 
+    es: 'Usted tiene derecho a acceder, actualizar o solicitar la eliminación de su información personal en cualquier momento a través de su perfil o contactándonos.', 
+    pt: 'Você tem o direito de acessar, atualizar ou solicitar a exclusão de suas informações pessoais a qualquer momento através do seu perfil ou entrando em contato conosco.' 
+  },
+  'By_registering_you_agree': { 
+    en: 'By registering, you agree to our', 
+    es: 'Al registrarte, aceptas nuestros', 
+    pt: 'Ao se registrar, você concorda com nossos' 
+  },
+  'and_our': { 
+    en: 'and our', 
+    es: 'y nuestra', 
+    pt: 'e nossa' 
+  },
 };
+
 
 
 

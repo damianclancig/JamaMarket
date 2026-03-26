@@ -116,9 +116,14 @@ export default function Footer() {
             </div>
             <div className="flex-1 md:text-center">
                 <h4 className="font-semibold mb-1">{t('Legal')}</h4>
-                <Button variant="link" asChild className="p-0 h-auto text-sm text-muted-foreground">
-                    <Link href="/terms">{t('Terms_and_Conditions')}</Link>
-                </Button>
+                <div className="flex flex-col items-center gap-1">
+                    <Button variant="link" asChild className="p-0 h-auto text-sm text-muted-foreground">
+                        <Link href="/terms">{t('Terms_and_Conditions')}</Link>
+                    </Button>
+                    <Button variant="link" asChild className="p-0 h-auto text-sm text-muted-foreground">
+                        <Link href="/privacy">{t('Privacy_Policy')}</Link>
+                    </Button>
+                </div>
             </div>
              <div className="flex-1 md:text-right">
                 <h4 className="font-semibold mb-1">{t('Location')}</h4>

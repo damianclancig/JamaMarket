@@ -19,6 +19,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export default function RegisterForm() {
     const [isPending, startTransition] = useTransition();
@@ -247,6 +248,17 @@ export default function RegisterForm() {
                     {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t('Register')}
                 </Button>
+
+                <p className="text-center text-xs text-muted-foreground mt-4">
+                    {t('By_registering_you_agree')}{' '}
+                    <Link href="/terms" className="underline hover:text-primary transition-colors">
+                        {t('Terms_and_Conditions')}
+                    </Link>{' '}
+                    {t('and_our')}{' '}
+                    <Link href="/privacy" className="underline hover:text-primary transition-colors">
+                        {t('Privacy_Policy')}
+                    </Link>.
+                </p>
             </form>
         </Form>
     );
