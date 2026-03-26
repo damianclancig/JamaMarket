@@ -5,32 +5,32 @@ import { toast } from '@/hooks/use-toast';
 import { Order, User } from './types';
 
 async function sendEmail(formData: FormData): Promise<void> {
-  const apiKey = process.env.MAILEROO_API_KEY;
+    const apiKey = process.env.MAILEROO_API_KEY;
 
-  if (!apiKey) {
-    console.error('Maileroo API key is not configured.');
-    throw new Error('Email service is not configured.');
-  }
-
-  try {
-    const response = await fetch('https://smtp.maileroo.com/send', {
-      method: 'POST',
-      headers: {
-        'X-API-Key': apiKey,
-      },
-      body: formData,
-    });
-    
-    if (!response.ok) {
-        const errorBody = await response.json().catch(() => ({ message: 'Failed to parse error response' }));
-        const errorMessage = `Error ${response.status} ${response.statusText}: ${errorBody.message || 'Failed to send email'}`;
-        console.error('Maileroo API Error:', errorMessage);
-        throw new Error(errorMessage);
+    if (!apiKey) {
+        console.error('Maileroo API key is not configured.');
+        throw new Error('Email service is not configured.');
     }
-  } catch (error) {
-    console.error('Error sending email:', error);
-    throw error;
-  }
+
+    try {
+        const response = await fetch('https://smtp.maileroo.com/send', {
+            method: 'POST',
+            headers: {
+                'X-API-Key': apiKey,
+            },
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.json().catch(() => ({ message: 'Failed to parse error response' }));
+            const errorMessage = `Error ${response.status} ${response.statusText}: ${errorBody.message || 'Failed to send email'}`;
+            console.error('Maileroo API Error:', errorMessage);
+            throw new Error(errorMessage);
+        }
+    } catch (error) {
+        console.error('Error sending email:', error);
+        throw error;
+    }
 }
 
 export async function sendPasswordResetEmail(to: string, name: string, resetUrl: string): Promise<void> {
@@ -40,17 +40,20 @@ export async function sendPasswordResetEmail(to: string, name: string, resetUrl:
         throw new Error('Email service is not properly configured.');
     }
 
-    const subject = 'Restablece tu contraseña de Ajal de Raiz';
-    
-    const plainBody = `Hola ${name},\n\nPara restablecer tu contraseña, usa el siguiente enlace:\n${resetUrl}\n\nSi no solicitaste esto, ignora este correo.\n\nEl equipo de Ajal de Raiz`;
+    const subject = 'Restablece tu contraseña de Jama Market';
+
+    const plainBody = `Hola ${name},\n\nPara restablecer tu contraseña, usa el siguiente enlace:\n${resetUrl}\n\nSi no solicitaste esto, ignora este correo.\n\nEl equipo de Jama Market`;
     const htmlBody = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6;">
             <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="${process.env.NEXTAUTH_URL}/images/jama-logo-full.webp" alt="JamaMarket" style="max-width: 200px; height: auto;">
+                </div>
                 <h2 style="color: #333;">Restablece tu Contraseña</h2>
                 <p>Hola ${name},</p>
-                <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta en Ajal de Raiz. Haz clic en el botón de abajo para establecer una nueva contraseña:</p>
+                <p>Recibimos una solicitud para restablecer la contraseña de tu cuenta en Jama Market. Haz clic en el botón de abajo para establecer una nueva contraseña:</p>
                 <p style="text-align: center;">
-                    <a href="${resetUrl}" style="display: inline-block; padding: 12px 24px; background-color: #10B981; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                    <a href="${resetUrl}" style="display: inline-block; padding: 12px 24px; background-color: #E67E22; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
                         Restablecer Contraseña
                     </a>
                 </p>
@@ -58,13 +61,13 @@ export async function sendPasswordResetEmail(to: string, name: string, resetUrl:
                 <p><a href="${resetUrl}">${resetUrl}</a></p>
                 <p>Si no solicitaste un restablecimiento de contraseña, puedes ignorar este correo electrónico de forma segura.</p>
                 <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-                <p style="font-size: 0.9em; color: #777;">Saludos,<br/>El equipo de Ajal de Raiz</p>
+                <p style="font-size: 0.9em; color: #777;">Saludos,<br/>El equipo de Jama Market</p>
             </div>
         </div>
     `;
 
     const formData = new FormData();
-    formData.append('from', `Ajal de Raiz <${fromEmail}>`);
+    formData.append('from', `Jama Market <${fromEmail}>`);
     formData.append('to', to);
     formData.append('subject', subject);
     formData.append('plain', plainBody);
@@ -88,11 +91,14 @@ export async function sendContactRequestEmail(userEmail: string, message: string
     const htmlBody = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-                <h2 style="color: #10B981;">Nueva Consulta desde la Web</h2>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="${process.env.NEXTAUTH_URL}/images/jama-logo-full.webp" alt="JamaMarket" style="max-width: 200px; height: auto;">
+                </div>
+                <h2 style="color: #E67E22;">Nueva Consulta desde la Web</h2>
                 <p>Has recibido un nuevo mensaje a través del formulario de contacto de tu web.</p>
                 <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-                <p><strong>Email del usuario:</strong> <a href="mailto:${userEmail}" style="color: #10B981;">${userEmail}</a></p>
-                <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #10B981;">
+                <p><strong>Email del usuario:</strong> <a href="mailto:${userEmail}" style="color: #E67E22;">${userEmail}</a></p>
+                <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #E67E22;">
                     <p><strong>Mensaje:</strong></p>
                     <p style="white-space: pre-wrap; margin: 0;">${message}</p>
                 </div>
@@ -103,7 +109,7 @@ export async function sendContactRequestEmail(userEmail: string, message: string
     `;
 
     const formData = new FormData();
-    formData.append('from', `Ajal de Raiz <${fromEmail}>`);
+    formData.append('from', `Jama Market <${fromEmail}>`);
     formData.append('reply_to', userEmail);
     formData.append('to', toEmail);
     formData.append('subject', subject);
@@ -119,10 +125,13 @@ export async function sendContactRequestEmail(userEmail: string, message: string
 const adminNotificationWrapper = (title: string, content: string) => `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
         <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-            <h2 style="color: #3b7e4c;">${title}</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="${process.env.NEXTAUTH_URL}/images/jama-logo-full.webp" alt="JamaMarket" style="max-width: 200px; height: auto;">
+            </div>
+            <h2 style="color: #E67E22;">${title}</h2>
             ${content}
             <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-            <p style="font-size: 0.9em; color: #777;">Esta es una notificación automática de tu tienda Ajal de Raiz.</p>
+            <p style="font-size: 0.9em; color: #777;">Esta es una notificación automática de tu tienda Jama Market.</p>
         </div>
     </div>
 `;
@@ -142,7 +151,7 @@ export async function sendNewOrderNotification(order: Order, user: User): Promis
             <li><strong>Método de Pago:</strong> ${order.paymentMethod}</li>
         </ul>
         <p style="text-align: center; margin-top: 20px;">
-            <a href="${process.env.NEXTAUTH_URL}/admin/orders/${order.id}" style="display: inline-block; padding: 12px 24px; background-color: #3b7e4c; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            <a href="${process.env.NEXTAUTH_URL}/admin/orders/${order.id}" style="display: inline-block; padding: 12px 24px; background-color: #E67E22; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 Ver Pedido
             </a>
         </p>
@@ -150,7 +159,7 @@ export async function sendNewOrderNotification(order: Order, user: User): Promis
     const htmlBody = adminNotificationWrapper('¡Nuevo Pedido Recibido!', htmlContent);
 
     const formData = new FormData();
-    formData.append('from', `Ajal de Raiz <${fromEmail}>`);
+    formData.append('from', `Jama Market <${fromEmail}>`);
     formData.append('to', toEmail);
     formData.append('subject', subject);
     formData.append('plain', plainBody);
@@ -171,7 +180,7 @@ export async function sendReceiptSubmittedNotification(order: Order, user: User)
         <p>El cliente <strong>${user.name}</strong> (${user.email}) ha subido un comprobante de pago para el pedido #${order.id.substring(0, 8)}.</p>
         <p>El estado del pedido ha sido actualizado a "Pendiente de Confirmación".</p>
         <p style="text-align: center; margin-top: 20px;">
-            <a href="${process.env.NEXTAUTH_URL}/admin/orders/${order.id}" style="display: inline-block; padding: 12px 24px; background-color: #3b7e4c; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            <a href="${process.env.NEXTAUTH_URL}/admin/orders/${order.id}" style="display: inline-block; padding: 12px 24px; background-color: #E67E22; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 Verificar Comprobante
             </a>
         </p>
@@ -179,7 +188,7 @@ export async function sendReceiptSubmittedNotification(order: Order, user: User)
     const htmlBody = adminNotificationWrapper('Comprobante de Pago Recibido', htmlContent);
 
     const formData = new FormData();
-    formData.append('from', `Ajal de Raiz <${fromEmail}>`);
+    formData.append('from', `Jama Market <${fromEmail}>`);
     formData.append('to', toEmail);
     formData.append('subject', subject);
     formData.append('plain', plainBody);
@@ -204,15 +213,15 @@ export async function sendMercadoPagoPaymentSuccessNotification(orderId: string,
         </ul>
         <p>El estado del pedido se ha actualizado automáticamente a "Confirmado".</p>
          <p style="text-align: center; margin-top: 20px;">
-            <a href="${process.env.NEXTAUTH_URL}/admin/orders/${orderId}" style="display: inline-block; padding: 12px 24px; background-color: #3b7e4c; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            <a href="${process.env.NEXTAUTH_URL}/admin/orders/${orderId}" style="display: inline-block; padding: 12px 24px; background-color: #E67E22; color: #ffffff; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 Ver Pedido Confirmado
             </a>
         </p>
     `;
     const htmlBody = adminNotificationWrapper('Pago Confirmado por MercadoPago', htmlContent);
-    
+
     const formData = new FormData();
-    formData.append('from', `Ajal de Raiz <${fromEmail}>`);
+    formData.append('from', `Jama Market <${fromEmail}>`);
     formData.append('to', toEmail);
     formData.append('subject', subject);
     formData.append('plain', plainBody);
