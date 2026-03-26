@@ -6,23 +6,40 @@ import { Providers } from '@/components/providers/providers';
 import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://jamamarket.clancig.com.ar'),
+  metadataBase: new URL('http://jamamarket.clancig.com.ar'),
   title: {
-    default: 'JamaMarket - Todo para tu Mascota',
+    default: 'JamaMarket - Alimento y Accesorios Premium para tu Mascota',
     template: `%s | JamaMarket`,
   },
-  description: 'Alimento premium, accesorios, juguetes y los mejores consejos para el cuidado de tus amigos peludos. JamaMarket: Calidad y amor en cada producto.',
+  description: 'Descubrí la mejor selección de alimento premium, accesorios y juguetes para perros y gatos. JamaMarket: Todo lo que tu mascota necesita en un solo lugar con envíos a todo el país. Calidad, amor y consejos expertos para tus amigos peludos.',
+  keywords: ['alimento para mascotas', 'accesorios para mascotas', 'alimento premium perros', 'alimento premium gatos', 'juguetes para perros', 'juguetes para gatos', 'pet shop argentina', 'jamamarket', 'cuidado de mascotas'],
+  authors: [{ name: 'JamaMarket Team' }],
+  creator: 'JamaMarket',
+  publisher: 'JamaMarket',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: '/',
+    languages: {
+      'es-AR': '/es',
+      'en-US': '/en',
+      'pt-BR': '/pt',
+    },
+  },
   openGraph: {
-    title: 'JamaMarket - Todo para tu Mascota',
-    description: 'Alimento premium, accesorios y juguetes para tus mascotas.',
-    url: 'https://jamamarket.clancig.com.ar',
+    title: 'JamaMarket - Alimento y Accesorios Premium para tu Mascota',
+    description: 'Descubrí la mejor selección de alimento premium, accesorios y juguetes para perros y gatos. Calidad y amor en cada producto.',
+    url: 'http://jamamarket.clancig.com.ar',
     siteName: 'JamaMarket',
     images: [
       {
-        url: 'https://res.cloudinary.com/dqh1coa3c/image/upload/v1754482844/ajal-de-raiz/Varias_Especies_ofsqvv.jpg', // TODO: Update to JamaMarket image
+        url: '/images/jama-logo-full.webp',
         width: 1200,
         height: 630,
-        alt: 'JamaMarket Store',
+        alt: 'JamaMarket - Todo para tu mascota',
       },
     ],
     locale: 'es_AR',
@@ -30,13 +47,15 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'JamaMarket - Todo para tu Mascota',
-    description: 'Alimento premium, accesorios y juguetes para tus mascotas.',
-    images: ['https://res.cloudinary.com/dqh1coa3c/image/upload/v1754482844/ajal-de-raiz/Varias_Especies_ofsqvv.jpg'], // TODO: Update to JamaMarket image
+    title: 'JamaMarket - Alimento y Accesorios Premium para tu Mascota',
+    description: 'Todo lo que tu mascota necesita, en un solo lugar. Alimento premium y accesorios.',
+    images: ['/images/jama-logo-full.webp'],
+    creator: '@jamamarket',
   },
   robots: {
     index: true,
     follow: true,
+    nocache: true,
     googleBot: {
       index: true,
       follow: true,
@@ -45,13 +64,23 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  icons: {
+    icon: '/images/jama-logo.webp',
+    shortcut: '/images/jama-logo.webp',
+    apple: '/images/jama-logo.webp',
+  },
 };
+
+
 
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#f0f1eb' },
     { media: '(prefers-color-scheme: dark)', color: '#1b5030' },
   ],
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({

@@ -1,7 +1,7 @@
 import { getAvailableProducts } from '@/lib/product-service';
 import { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://jamamarket.clancig.com.ar';
+const BASE_URL = 'http://jamamarket.clancig.com.ar';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get all products
