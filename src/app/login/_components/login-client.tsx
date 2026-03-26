@@ -1,0 +1,182 @@
+
+"use client"
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useLanguage } from "@/hooks/use-language";
+import { Loader2, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { useFormStatus } from "react-dom";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useTheme } from "next-themes";
+import { verifyRecaptchaAction } from "@/lib/actions";
+import { useToast } from "@/hooks/use-toast";
+
+function LoginButton({ disabled }: { disabled: boolean }) {
+  const { pending } = useFormStatus();
+  const { t } = useLanguage();
+
+  return (
+    <Button type="submit" className="w-full" aria-disabled={pending} disabled={disabled || pending}>
+      {pending ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          {t('Logging_In')}
+        </>
+      ) : (
+        t('Login')
+      )}
+    </Button>
+  );
+}
+
+function LoginForm() {
+  const { t } = useLanguage();
+  const searchParams = useSearchParams();
+  const error = searchParams.get('error');
+  const { toast } = useToast();
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [failedAttempts, setFailedAttempts] = useState(error === 'CredentialsSignin' ? 1 : 0);
+  const { theme } = useTheme();
+
+  const requiresCaptcha = failedAttempts >= 3;
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setIsVerified(!!token);
+  };
+
+  const handleSignIn = async (formData: FormData) => {
+    if (requiresCaptcha) {
+      const token = recaptchaRef.current?.getValue();
+
+      if (!token) {
+        toast({
+          variant: "destructive",
+          title: "Verificación requerida",
+          description: "Demasiados intentos fallidos. Por favor, completa el reCAPTCHA por seguridad.",
+        });
+        return;
+      }
+
+      // Verify captcha server-side before attempting login
+      const verification = await verifyRecaptchaAction(token);
+
+      if (!verification.success) {
+        toast({
+          variant: "destructive",
+          title: "Error de verificación",
+          description: verification.message || "Captcha inválido",
+        });
+        recaptchaRef.current?.reset();
+        setIsVerified(false);
+        return;
+      }
+    }
+
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false
+    });
+
+    if (result?.error) {
+      setFailedAttempts(prev => prev + 1);
+      toast({
+        variant: "destructive",
+        title: "Error de inicio de sesión",
+        description: t('Login_Error_Description'),
+      });
+      if (requiresCaptcha) {
+        recaptchaRef.current?.reset();
+        setIsVerified(false);
+      }
+    } else if (result?.ok) {
+      window.location.href = '/';
+    }
+  }
+
+  return (
+    <form action={handleSignIn} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="email">{t('Email')}</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          placeholder={t('Placeholder_Email')}
+          required
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="password">{t('Password')}</Label>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          required
+        />
+      </div>
+      {(error === 'CredentialsSignin' || failedAttempts > 0) && (
+        <div className="flex items-center gap-2 text-sm text-destructive">
+          <AlertCircle className="h-4 w-4" />
+          <p>{t('Login_Error_Description')}</p>
+        </div>
+      )}
+
+      {requiresCaptcha && (
+        <div className="flex justify-center w-full">
+          <div className="rounded-md overflow-hidden animate-in fade-in zoom-in duration-300">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              onChange={handleRecaptchaChange}
+              theme={theme === 'dark' ? 'dark' : 'light'}
+              key={theme}
+            />
+          </div>
+        </div>
+      )}
+
+      <LoginButton disabled={requiresCaptcha && !isVerified} />
+    </form>
+  )
+}
+
+
+export default function LoginClientPage() {
+  const { t } = useLanguage();
+
+  return (
+    <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader className="text-center">
+          <CardTitle className="font-headline text-3xl">{t('Welcome_Back')}</CardTitle>
+          <CardDescription>{t('Enter_your_credentials_to_log_in')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <LoginForm />
+        </CardContent>
+        <CardFooter className="flex-col items-center space-y-2 text-sm">
+          <div className="flex justify-between w-full">
+            <Button variant="link" size="sm" asChild className="p-0 h-auto">
+              <Link href="/forgot-password">{t('Forgot_Password')}</Link>
+            </Button>
+            <Button variant="link" size="sm" asChild className="p-0 h-auto">
+              <Link href="/register">{t('Create_Account')}</Link>
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}

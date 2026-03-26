@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Modo Claro — JamaMarket */
+    --background: 30 20% 96%;
+    --foreground: 25 30% 12%;
+    --card: 30 20% 100%;
+    --card-foreground: 25 30% 12%;
+    --popover: 30 20% 100%;
+    --popover-foreground: 25 30% 12%;
+    --primary: 28 79% 52%;        /* #E67E22 naranja cálido */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 20% 92%;
+    --secondary-foreground: 25 30% 20%;
+    --muted: 30 20% 92%;
+    --muted-foreground: 25 20% 40%;
+    --accent: 28 79% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 30 15% 85%;
+    --input: 30 15% 88%;
+    --ring: 28 79% 52%;
+    --chart-1: 28 79% 52%;
+    --chart-2: 35 90% 55%;
+    --chart-3: 20 70% 45%;
+    --chart-4: 45 85% 60%;
+    --chart-5: 15 65% 50%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Modo Comfort — JamaMarket */
+    --background: 0 0% 10%;           /* #1A1A1A */
+    --foreground: 30 18% 91%;         /* #E8E3D9 color hueso */
+    --card: 0 0% 13%;
+    --card-foreground: 30 18% 91%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 30 18% 91%;
+    --primary: 28 79% 52%;            /* #E67E22 — mismo primario cálido */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 17%;
+    --secondary-foreground: 30 18% 85%;
+    --muted: 0 0% 17%;
+    --muted-foreground: 30 10% 60%;
+    --accent: 28 70% 40%;
+    --accent-foreground: 30 18% 91%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 28 79% 52%;
+    --chart-1: 28 79% 52%;
+    --chart-2: 35 80% 55%;
+    --chart-3: 20 65% 45%;
+    --chart-4: 45 75% 58%;
+    --chart-5: 15 60% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground overflow-x-clip;
+  }
+}
