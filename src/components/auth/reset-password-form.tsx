@@ -7,8 +7,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Check } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { useToast } from "@/hooks/use-toast";
 import { resetPassword } from "@/lib/actions";
@@ -41,6 +42,10 @@ export default function ResetPasswordForm() {
             confirmPassword: ""
         },
     });
+
+    const watchPassword = form.watch("password");
+    const watchConfirmPassword = form.watch("confirmPassword");
+    const passwordsMatch = watchPassword && watchConfirmPassword && watchPassword === watchConfirmPassword;
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         if (!token) {
@@ -81,7 +86,7 @@ export default function ResetPasswordForm() {
                         <FormItem>
                             <FormLabel>{t('Password')}</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="******" {...field} disabled={isPending} />
+                                <PasswordInput placeholder="******" {...field} disabled={isPending} />
                             </FormControl>
                             <FormDescription>
                                 {t('Password_Requirements')}
@@ -95,9 +100,17 @@ export default function ResetPasswordForm() {
                     name="confirmPassword"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>{t('Confirm_Password')}</FormLabel>
+                            <FormLabel className="flex justify-between items-center">
+                                {t('Confirm_Password')}
+                                {passwordsMatch && (
+                                    <span className="flex items-center text-xs text-green-600 animate-in fade-in zoom-in slide-in-from-right-1">
+                                        <Check className="h-3 w-3 mr-1" />
+                                        {t('Passwords_match')}
+                                    </span>
+                                )}
+                            </FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="******" {...field} disabled={isPending} />
+                                <PasswordInput placeholder="******" {...field} disabled={isPending} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

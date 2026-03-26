@@ -7,8 +7,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+import { Loader2, Check } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import { useToast } from "@/hooks/use-toast";
 import { registerUser } from "@/lib/actions";
@@ -38,6 +41,10 @@ export default function RegisterForm() {
             .min(8, { message: t('Password_min_8_chars') })
             .regex(/[0-9]/, { message: t('Password_one_number') })
             .regex(/[^a-zA-Z0-9]/, { message: t('Password_one_special_char') }),
+        confirmPassword: z.string(),
+    }).refine((data) => data.password === data.confirmPassword, {
+        message: t('Passwords_do_not_match'),
+        path: ["confirmPassword"],
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -46,8 +53,43 @@ export default function RegisterForm() {
             name: "",
             email: "",
             password: "",
+            confirmPassword: "",
         },
     });
+
+    const watchPassword = form.watch("password");
+    const watchConfirmPassword = form.watch("confirmPassword");
+    const passwordsMatch = watchPassword && watchConfirmPassword && watchPassword === watchConfirmPassword;
+
+    const getStrength = (pass: string) => {
+        if (!pass) return 0;
+        let score = 0;
+        if (pass.length > 0) score += 1;
+        if (pass.length >= 8) score += 1;
+        if (/[0-9]/.test(pass)) score += 1;
+        if (/[^a-zA-Z0-9]/.test(pass)) score += 1;
+        return score;
+    };
+
+    const strength = getStrength(watchPassword);
+    
+    const getStrengthColor = (score: number) => {
+        if (score === 0) return "bg-muted";
+        if (score === 1) return "bg-red-500";
+        if (score === 2) return "bg-orange-500";
+        if (score === 3) return "bg-yellow-500";
+        if (score === 4) return "bg-green-500";
+        return "bg-muted";
+    };
+
+    const getStrengthLabel = (score: number) => {
+        if (score === 0) return "";
+        if (score === 1) return t('Strength_Very_Weak');
+        if (score === 2) return t('Strength_Weak');
+        if (score === 3) return t('Strength_Medium');
+        if (score === 4) return t('Strength_Strong');
+        return "";
+    };
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         const recaptchaToken = recaptchaRef.current?.getValue();
@@ -118,7 +160,7 @@ export default function RegisterForm() {
                         <FormItem>
                             <FormLabel>{t('Email')}</FormLabel>
                             <FormControl>
-                                <Input type="email" placeholder={t('Placeholder_Email')} {...field} disabled={isPending} />
+                                <Input type="email" placeholder={t('Placeholder_Email')} {...field} disabled={isPending} autoComplete="new-email" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -131,11 +173,59 @@ export default function RegisterForm() {
                         <FormItem>
                             <FormLabel>{t('Password')}</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="******" {...field} disabled={isPending} />
+                                <PasswordInput placeholder="******" {...field} disabled={isPending} autoComplete="new-password" />
                             </FormControl>
+                            {watchPassword && (
+                                <div className="space-y-1 mt-2 animate-in fade-in slide-in-from-top-1 duration-300">
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-muted-foreground">{t('Password_Strength')}:</span>
+                                        <span className={cn(
+                                            "font-medium",
+                                            strength === 1 && "text-red-500",
+                                            strength === 2 && "text-orange-500",
+                                            strength === 3 && "text-yellow-500",
+                                            strength === 4 && "text-green-600"
+                                        )}>
+                                            {getStrengthLabel(strength)}
+                                        </span>
+                                    </div>
+                                    <div className="flex gap-1 h-1">
+                                        {[1, 2, 3, 4].map((step) => (
+                                            <div
+                                                key={step}
+                                                className={cn(
+                                                    "h-full w-full rounded-full transition-all duration-500",
+                                                    strength >= step ? getStrengthColor(strength) : "bg-muted"
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                             <FormDescription>
                                 {t('Password_Requirements')}
                             </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="flex justify-between items-center">
+                                {t('Confirm_Password')}
+                                {passwordsMatch && (
+                                    <span className="flex items-center text-xs text-green-600 animate-in fade-in zoom-in slide-in-from-right-1">
+                                        <Check className="h-3 w-3 mr-1" />
+                                        {t('Passwords_match')}
+                                    </span>
+                                )}
+                            </FormLabel>
+                            <FormControl>
+                                <PasswordInput placeholder="******" {...field} disabled={isPending} autoComplete="new-password" />
+                            </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}

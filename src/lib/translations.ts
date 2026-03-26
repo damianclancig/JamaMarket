@@ -157,6 +157,14 @@ export const translations = {
   'New_Password_Success_Desc': { en: 'Your password has been updated successfully. You can now log in.', es: 'Tu contraseña ha sido actualizada. Ya puedes iniciar sesión.', pt: 'Sua senha foi atualizada. Você já pode fazer login.' },
   'Login_to_Buy': { en: 'Login to Buy', es: 'Inicia Sesión para Comprar', pt: 'Faça Login para Comprar' },
   'Passwords_do_not_match': { en: 'Passwords do not match.', es: 'Las contraseñas no coinciden.', pt: 'As senhas não correspondem.' },
+  'Show_Password': { en: 'Show Password', es: 'Mostrar Contraseña', pt: 'Mostrar Senha' },
+  'Hide_Password': { en: 'Hide Password', es: 'Ocultar Contraseña', pt: 'Ocultar Senha' },
+  'Passwords_match': { en: 'Passwords match', es: 'Las contraseñas coinciden', pt: 'As senhas coincidem' },
+  'Password_Strength': { en: 'Password Strength', es: 'Seguridad de la contraseña', pt: 'Segurança da senha' },
+  'Strength_Very_Weak': { en: 'Very Weak', es: 'Muy Débil', pt: 'Muito Fraca' },
+  'Strength_Weak': { en: 'Weak', es: 'Débil', pt: 'Fraca' },
+  'Strength_Medium': { en: 'Medium', es: 'Media', pt: 'Média' },
+  'Strength_Strong': { en: 'Strong', es: 'Fuerte', pt: 'Forte' },
 
   // About Us Page
   'About_Title': { en: 'Our Story', es: 'Nuestra Historia', pt: 'Nossa História' },
