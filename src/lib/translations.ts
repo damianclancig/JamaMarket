@@ -438,6 +438,7 @@ export const translations = {
   'Additional_Instructions': { en: 'Additional Instructions', es: 'Indicaciones Adicionales', pt: 'Instruções Adicionais' },
   'Instructions_Placeholder': { en: 'e.g.: Ring bell, apartment 3B.', es: 'Ej: Tocar timbre, departamento 3B.', pt: 'ex: Tocar a campainha, apto 3B.' },
   'Stock_Featured': { en: 'Stock / Feat.', es: 'Stock / Dest.', pt: 'Estoque / Dest.' },
+  'No_Products_Found': { en: 'No products found.', es: 'No se encontraron productos.', pt: 'Nenhum produto encontrado.' },
   'End_of_Results': { en: 'End of results.', es: 'Fin de los resultados.', pt: 'Fim dos resultados.' },
   'Terms_Title': { en: 'Terms and Conditions', es: 'Términos y Condiciones', pt: 'Termos e Condições' },
   'Terms_Meta_Desc': { en: 'Read our terms and conditions before using our site and making purchases at JamaMarket.', es: 'Lee nuestros términos y condiciones antes de utilizar nuestro sitio y realizar compras en JamaMarket.', pt: 'Leia nossos termos e condições antes de usar nosso site e fazer compras no JamaMarket.' },

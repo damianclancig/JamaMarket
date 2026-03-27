@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getPaymentWithClient } from '@/lib/mercadopago-service';
-import { getDb } from '@/lib/product-service';
+import { getDb } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import type { MercadoPagoPaymentDetails } from '@/lib/types';
 import { sendMercadoPagoPaymentSuccessNotification } from '@/lib/email-service';

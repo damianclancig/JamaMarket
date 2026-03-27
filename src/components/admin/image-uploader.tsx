@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import imageCompression from 'browser-image-compression';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -48,6 +49,17 @@ export default function MultiMediaUploader({ name, defaultValues = [] }: MultiMe
 
     for (const file of Array.from(files)) {
       try {
+        // Comprimir solo si es imagen, los videos se suben sin modificar
+        let fileToUpload: File = file;
+        if (file.type.startsWith('image/')) {
+          fileToUpload = await imageCompression(file, {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            fileType: 'image/webp',
+            useWebWorker: true,
+          });
+        }
+
         const resSign = await fetch('/api/sign-cloudinary-params', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -61,7 +73,7 @@ export default function MultiMediaUploader({ name, defaultValues = [] }: MultiMe
         const { signature, timestamp } = await resSign.json();
 
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', fileToUpload);
         formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
         formData.append('signature', signature);
         formData.append('timestamp', timestamp);

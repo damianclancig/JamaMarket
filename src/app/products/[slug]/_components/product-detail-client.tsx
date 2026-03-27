@@ -134,7 +134,7 @@ export default function ProductDetailClient({ product, isAdmin }: { product: Pro
             <div className="grid grid-cols-5 gap-2">
               {product.images.map((media, index) => (
                 <button
-                  key={index}
+                  key={media}
                   onClick={() => setSelectedMedia(media)}
                   className={cn(
                     "relative aspect-square w-full rounded-md overflow-hidden ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring",

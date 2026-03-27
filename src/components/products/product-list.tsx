@@ -20,6 +20,21 @@ import { useDebouncedCallback } from 'use-debounce';
 
 const PRODUCTS_PER_PAGE = 12;
 
+// Extraído al scope de módulo para evitar recreación en cada render
+function ProductListSkeleton({ viewMode }: { viewMode: ViewMode }) {
+  return (
+    <div className={cn({
+      'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8': viewMode === 'grid-lg',
+      'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4': viewMode === 'grid-sm',
+      'flex flex-col gap-4': viewMode === 'list',
+    })}>
+      {Array.from({ length: 8 }).map((_, i) => (
+        <Skeleton key={`skeleton-${i}`} className={cn(viewMode === 'list' ? 'h-24 w-full' : 'h-80 w-full')} />
+      ))}
+    </div>
+  );
+}
+
 interface ProductListProps {
   products: Product[];
   initialCategories: string[];
@@ -133,17 +148,6 @@ export default function ProductList({ products: initialProducts, initialCategori
   }, [searchParams]);
 
 
-  const ProductListSkeleton = () => (
-    <div className={cn({
-      'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8': viewMode === 'grid-lg',
-      'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4': viewMode === 'grid-sm',
-      'flex flex-col gap-4': viewMode === 'list',
-    })}>
-      {Array.from({ length: 8 }).map((_, i) => (
-        <Skeleton key={i} className={cn(viewMode === 'list' ? 'h-24 w-full' : 'h-80 w-full')} />
-      ))}
-    </div>
-  );
 
 
   return (
@@ -231,7 +235,7 @@ export default function ProductList({ products: initialProducts, initialCategori
         )}
       </div>
 
-      {isLoading && products.length > 0 && <ProductListSkeleton />}
+      {isLoading && products.length > 0 && <ProductListSkeleton viewMode={viewMode} />}
 
       <div ref={loadMoreRef} className="h-1" />
 
@@ -239,7 +243,7 @@ export default function ProductList({ products: initialProducts, initialCategori
         <p className="text-center text-muted-foreground text-sm p-4">{t('End_of_results')}</p>
       )}
 
-      {isLoading && products.length === 0 && <ProductListSkeleton />}
+      {isLoading && products.length === 0 && <ProductListSkeleton viewMode={viewMode} />}
 
       {!isLoading && products.length === 0 && (
         <p className="text-center text-muted-foreground text-sm p-12">{t('No_products_found_with_filters')}</p>

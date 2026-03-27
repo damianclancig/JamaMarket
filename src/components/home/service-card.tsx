@@ -26,8 +26,8 @@ export default function ServiceCard({ service }: ServiceCardProps) {
             </CardHeader>
             <CardContent className="flex-grow space-y-4">
                 <ul className="space-y-2">
-                    {service.details.map((detail, index) => (
-                        <li key={index} className="flex items-start gap-2">
+                    {service.details.map((detail) => (
+                        <li key={detail} className="flex items-start gap-2">
                             <CheckCircle className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
                             <span className="text-muted-foreground">{detail}</span>
                         </li>

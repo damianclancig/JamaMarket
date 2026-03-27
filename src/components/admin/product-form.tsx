@@ -497,7 +497,6 @@ export default function ProductForm({ product, categories }: ProductFormProps) {
                     value={deleteConfirmation}
                     onChange={(e) => setDeleteConfirmation(e.target.value)}
                     placeholder={t('Word_DELETE')}
-                    autoFocus
                   />
                   <AlertDialogFooter>
                     <AlertDialogCancel>{t('Cancel')}</AlertDialogCancel>

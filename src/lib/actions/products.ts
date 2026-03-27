@@ -23,7 +23,7 @@ function parseVariantsFromFormData(formData: FormData): ProductVariant[] {
 
         if (attribute && !isNaN(price) && !isNaN(stock)) {
             variants.push({
-                _id: new ObjectId(),
+                _id: new ObjectId().toString(),
                 sku,
                 price,
                 stock,

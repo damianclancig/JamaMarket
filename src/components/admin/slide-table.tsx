@@ -34,19 +34,21 @@ import { Badge } from '../ui/badge';
 import Link from 'next/link';
 import { NO_IMAGE_URL } from '@/lib/utils';
 
-// Helper function to parse simple markdown-like formatting
 const parseSubtext = (text: string) => {
     if (!text) return '';
 
-    const html = text
-        .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
-        .replace(/_(.*?)_/g, '<u>$1</u>')
-        .replace(/-(.*?)-/g, '<s>$1</s>');
+    const parts = text.split(/(\*.*?\*|_.*?_|-[^-]+-)/g);
 
-    return React.createElement('div', {
-        className: 'whitespace-normal break-words',
-        dangerouslySetInnerHTML: { __html: html }
-    });
+    return (
+        <div className="whitespace-normal break-words">
+            {parts.map((part, i) => {
+                if (part.startsWith('*') && part.endsWith('*')) return <strong key={i}>{part.slice(1, -1)}</strong>;
+                if (part.startsWith('_') && part.endsWith('_')) return <u key={i}>{part.slice(1, -1)}</u>;
+                if (part.startsWith('-') && part.endsWith('-')) return <s key={i}>{part.slice(1, -1)}</s>;
+                return <React.Fragment key={i}>{part}</React.Fragment>;
+            })}
+        </div>
+    );
 };
 
 interface SlideTableProps {

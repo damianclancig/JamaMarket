@@ -13,19 +13,27 @@ import { cn } from '@/lib/utils';
 import { Pencil } from 'lucide-react';
 import React from 'react';
 
-// Helper function to parse simple markdown-like formatting
 const parseSubtext = (text: string) => {
   if (!text) return '';
 
-  const html = text
-    .replace(/\*(.*?)\*/g, '<strong>$1</strong>') // Bold for *text*
-    .replace(/_(.*?)_/g, '<u>$1</u>')           // Underline for _text_
-    .replace(/-(.*?)-/g, '<s>$1</s>');          // Strikethrough for -text-
+  const parts = text.split(/(\*.*?\*|_.*?_|-[^-]+-)/g);
 
-  return React.createElement('p', {
-    className: 'mt-4 max-w-2xl text-lg md:text-xl text-gray-200 whitespace-pre-line',
-    dangerouslySetInnerHTML: { __html: html }
-  });
+  return (
+    <p className="mt-4 max-w-2xl text-lg md:text-xl text-gray-200 whitespace-pre-line">
+      {parts.map((part, i) => {
+        if (part.startsWith('*') && part.endsWith('*')) {
+          return <strong key={i}>{part.slice(1, -1)}</strong>;
+        }
+        if (part.startsWith('_') && part.endsWith('_')) {
+          return <u key={i}>{part.slice(1, -1)}</u>;
+        }
+        if (part.startsWith('-') && part.endsWith('-')) {
+          return <s key={i}>{part.slice(1, -1)}</s>;
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+      })}
+    </p>
+  );
 };
 
 

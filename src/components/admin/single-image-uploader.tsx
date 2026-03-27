@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import imageCompression from 'browser-image-compression';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -32,6 +33,14 @@ export default function SingleImageUploader({ name, defaultValue = '', folder }:
     });
 
     try {
+      // Comprimir a WebP antes de subir a Cloudinary
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        fileType: 'image/webp',
+        useWebWorker: true,
+      });
+
       const resSign = await fetch('/api/sign-cloudinary-params', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,7 +51,7 @@ export default function SingleImageUploader({ name, defaultValue = '', folder }:
       
       const { signature, timestamp } = await resSign.json();
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', compressedFile);
       formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
       formData.append('signature', signature);
       formData.append('timestamp', timestamp);
