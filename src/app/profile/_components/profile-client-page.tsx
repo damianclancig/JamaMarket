@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/hooks/use-language';
 
-const UPLOAD_FOLDER = 'ajal-de-raiz/Profiles';
+const UPLOAD_FOLDER = 'jamamarket/Profiles';
 
 interface ProfileClientPageProps {
     user: User;

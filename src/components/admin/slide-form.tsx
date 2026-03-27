@@ -17,7 +17,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Link from 'next/link';
 import SingleImageUploader from './single-image-uploader';
 
-const UPLOAD_FOLDER = 'ajal-de-raiz/Novedades';
+const UPLOAD_FOLDER = 'jamamarket/Novedades';
 
 interface SlideFormProps {
   slide?: HeroSlide | null;

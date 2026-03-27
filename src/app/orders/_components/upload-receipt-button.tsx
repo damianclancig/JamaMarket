@@ -22,7 +22,7 @@ import { submitReceipt } from '@/lib/actions';
 import { useNotification } from '@/contexts/notification-context';
 import { useRouter } from 'next/navigation';
 
-const UPLOAD_FOLDER = 'ajal-de-raiz/Comprobantes';
+const UPLOAD_FOLDER = 'jamamarket/Comprobantes';
 
 interface UploadReceiptButtonProps {
     orderId: string;

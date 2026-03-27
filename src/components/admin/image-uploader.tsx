@@ -11,7 +11,7 @@ import NextImage from 'next/image';
 import { useLanguage } from '@/hooks/use-language';
 
 const MAX_MEDIA = 5;
-const UPLOAD_FOLDER = 'ajal-de-raiz/Productos';
+const UPLOAD_FOLDER = 'jamamarket/Productos';
 
 interface MultiMediaUploaderProps {
   name: string;
