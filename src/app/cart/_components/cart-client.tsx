@@ -8,7 +8,7 @@ import { useLanguage } from '@/hooks/use-language';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Loader2, Trash2, Wallet, Landmark, CreditCard, Building } from 'lucide-react';
+import { Loader2, Trash2, Wallet, Landmark, CreditCard, Building, Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -148,22 +148,47 @@ export default function CartClient({ user }: CartClientProps) {
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between gap-4 w-full md:w-auto mt-4 md:mt-0">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center border rounded-md">
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-8 w-8 rounded-none border-r"
+                                            onClick={() => updateQuantity(item.productId, Math.max(1, item.quantity - 1), item.variantId)}
+                                            disabled={item.quantity <= 1}
+                                        >
+                                            <Minus className="h-3 w-3" />
+                                            <span className="sr-only">Decrease quantity</span>
+                                        </Button>
                                         <Input
                                             type="number"
                                             min="1"
                                             max={item.countInStock}
                                             value={item.quantity}
-                                            onChange={(e) => updateQuantity(item.productId, parseInt(e.target.value), item.variantId)}
-                                            className="w-20 text-center"
+                                            onChange={(e) => updateQuantity(item.productId, parseInt(e.target.value) || 1, item.variantId)}
+                                            className="w-12 h-8 border-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus-visible:ring-0"
                                             aria-label={`Quantity for ${item.name} ${item.variantAttribute || ''}`}
                                         />
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon" 
+                                            className="h-8 w-8 rounded-none border-l"
+                                            onClick={() => updateQuantity(item.productId, Math.min(item.countInStock || 99, item.quantity + 1), item.variantId)}
+                                            disabled={item.quantity >= (item.countInStock || 99)}
+                                        >
+                                            <Plus className="h-3 w-3" />
+                                            <span className="sr-only">Increase quantity</span>
+                                        </Button>
                                     </div>
                                     <div className="text-right font-medium w-24">
                                         ${formatPrice(item.price * item.quantity, language)}
                                     </div>
-                                     <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.productId, item.variantId)}>
-                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                     <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => removeFromCart(item.productId, item.variantId)}
+                                        className="hover:bg-destructive group transition-colors"
+                                    >
+                                        <Trash2 className="h-4 w-4 text-destructive group-hover:text-destructive-foreground transition-colors" />
                                         <span className="sr-only">Remove {item.name} {item.variantAttribute || ''}</span>
                                     </Button>
                                 </div>
